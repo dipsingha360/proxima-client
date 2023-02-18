@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useProjectsContext } from "../hooks/useProjectsContext";
 
 const ProjectForm = () => {
   const [title, setTitle] = useState("");
@@ -8,6 +9,8 @@ const ProjectForm = () => {
   const [manager, setManager] = useState("");
   const [dev, setDev] = useState("");
   const [error, setError] = useState(null);
+
+  const { dispatch } = useProjectsContext();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,7 +44,10 @@ const ProjectForm = () => {
       setDev("");
       setError(null);
 
-      console.log("New project added to the DB", data);
+      // console.log("New project added to the DB", data);
+
+      //dispatch
+      dispatch({ type: "CREATE_PROJECT", payload: data });
     }
   };
 
