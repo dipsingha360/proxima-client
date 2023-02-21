@@ -9,6 +9,7 @@ const ProjectForm = () => {
   const [manager, setManager] = useState("");
   const [dev, setDev] = useState("");
   const [error, setError] = useState(null);
+  const [emptyFields, setEmptyFields] = useState([]);
 
   const { dispatch } = useProjectsContext();
 
@@ -32,6 +33,7 @@ const ProjectForm = () => {
     // !req.ok --> set error
     if (!res.ok) {
       setError(data.error);
+      setEmptyFields(data.emptyFields);
     }
 
     //req.ok --> reset
@@ -43,6 +45,7 @@ const ProjectForm = () => {
       setManager("");
       setDev("");
       setError(null);
+      setEmptyFields([]);
 
       // console.log("New project added to the DB", data);
 
@@ -67,7 +70,11 @@ const ProjectForm = () => {
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="bg-transparent border border-slate-500 py-3 px-5 rounded-lg outline-none focus:border-sky-400 duration-300"
+          className={`bg-transparent border  py-3 px-5 rounded-lg outline-none focus:border-sky-400 duration-300 ${
+            emptyFields.includes("title")
+              ? "border-yellow-500"
+              : "border-slate-500"
+          }`}
           type="text"
           placeholder="e.g. web security website"
           id="title"
@@ -84,7 +91,11 @@ const ProjectForm = () => {
         <input
           value={tech}
           onChange={(e) => setTech(e.target.value)}
-          className="bg-transparent border border-slate-500 py-3 px-5 rounded-lg outline-none focus:border-sky-400 duration-300"
+          className={`bg-transparent border  py-3 px-5 rounded-lg outline-none focus:border-sky-400 duration-300 ${
+            emptyFields.includes("tech")
+              ? "border-yellow-500"
+              : "border-slate-500"
+          }`}
           type="text"
           placeholder="e.g. nodejs, react, redux"
           id="tech"
@@ -101,7 +112,11 @@ const ProjectForm = () => {
         <input
           value={budget}
           onChange={(e) => setBudget(e.target.value)}
-          className="bg-transparent border border-slate-500 py-3 px-5 rounded-lg outline-none focus:border-sky-400 duration-300"
+          className={`bg-transparent border  py-3 px-5 rounded-lg outline-none focus:border-sky-400 duration-300 ${
+            emptyFields.includes("budget")
+              ? "border-yellow-500"
+              : "border-slate-500"
+          }`}
           type="number"
           placeholder="e.g. 500"
           id="budget"
@@ -118,7 +133,11 @@ const ProjectForm = () => {
         <input
           value={duration}
           onChange={(e) => setDuration(e.target.value)}
-          className="bg-transparent border border-slate-500 py-3 px-5 rounded-lg outline-none focus:border-sky-400 duration-300"
+          className={`bg-transparent border  py-3 px-5 rounded-lg outline-none focus:border-sky-400 duration-300 ${
+            emptyFields.includes("duration")
+              ? "border-yellow-500"
+              : "border-slate-500"
+          }`}
           type="number"
           placeholder="e.g. web security website"
           id="duration"
@@ -135,7 +154,11 @@ const ProjectForm = () => {
         <input
           value={manager}
           onChange={(e) => setManager(e.target.value)}
-          className="bg-transparent border border-slate-500 py-3 px-5 rounded-lg outline-none focus:border-sky-400 duration-300"
+          className={`bg-transparent border  py-3 px-5 rounded-lg outline-none focus:border-sky-400 duration-300 ${
+            emptyFields.includes("manager")
+              ? "border-yellow-500"
+              : "border-slate-500"
+          }`}
           type="text"
           placeholder="e.g. Dip Singha"
           id="manager"
@@ -152,7 +175,11 @@ const ProjectForm = () => {
         <input
           value={dev}
           onChange={(e) => setDev(e.target.value)}
-          className="bg-transparent border border-slate-500 py-3 px-5 rounded-lg outline-none focus:border-sky-400 duration-300"
+          className={`bg-transparent border  py-3 px-5 rounded-lg outline-none focus:border-sky-400 duration-300 ${
+            emptyFields.includes("dev")
+              ? "border-yellow-500"
+              : "border-slate-500"
+          }`}
           type="number"
           placeholder="e.g. 10"
           id="developer"
