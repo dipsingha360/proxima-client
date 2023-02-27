@@ -1,8 +1,13 @@
 import { useProjectsContext } from "../hooks/useProjectsContext";
 import { currencyFormatter } from "../utils/currencyFormatter";
 import moment from "moment";
+import { useState } from "react";
+import ProjectForm from "./ProjectForm";
 
 const ProjectCards = ({ project }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isOverlyOpen, setIsOverlyOpen] = useState(false);
+
   const { dispatch } = useProjectsContext();
 
   const handleDelete = async () => {
@@ -17,6 +22,16 @@ const ProjectCards = ({ project }) => {
       // dispatch
       dispatch({ type: "DELETE_PROJECT", payload: data });
     }
+  };
+
+  const handleUpdate = () => {
+    setIsModalOpen(true);
+    setIsOverlyOpen(true);
+  };
+
+  const handleOverly = () => {
+    setIsModalOpen(false);
+    setIsOverlyOpen(false);
   };
 
   return (
@@ -48,7 +63,10 @@ const ProjectCards = ({ project }) => {
         </div>
       </div>
       <div className="bottom flex gap-5">
-        <button className="btn-update bg-sky-400 text-slate-900 py-2 px-5 rounded shadow-xl hover:bg-sky-50 duration-300 ">
+        <button
+          onClick={handleUpdate}
+          className="btn-update bg-sky-400 text-slate-900 py-2 px-5 rounded shadow-xl hover:bg-sky-50 duration-300 "
+        >
           Update
         </button>
         <button
@@ -57,6 +75,30 @@ const ProjectCards = ({ project }) => {
         >
           Delete
         </button>
+      </div>
+
+      {/* overly  */}
+      <div
+        onClick={handleOverly}
+        className={`overly fixed z-[1] top-0 left-0 right-0 bottom-0  h-screen w-screen bg-slate-900/50 backdrop-blur-sm ${
+          isModalOpen ? "" : "hidden"
+        }`}
+      ></div>
+
+      {/* modal  */}
+      <div
+        className={`update-modal w-[35rem] fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 bg-slate-800 p-10 rounded-xl shadow-xl border border-slate-700 z-[2] ${
+          isModalOpen ? "" : "hidden"
+        }`}
+      >
+        <h2 className="text-4xl font-medium text-sky-400 mb-10 ">
+          Update project
+        </h2>
+        <ProjectForm
+          project={project}
+          setIsModalOpen={setIsModalOpen}
+          setIsOverlyOpen={setIsOverlyOpen}
+        />
       </div>
     </div>
   );
