@@ -84,7 +84,10 @@ const ProjectForm = ({ project, setIsModalOpen, setIsOverlyOpen }) => {
         setEmptyFields([]);
 
         // dispatch
-
+        dispatch({
+          type: "UPDATE_PROJECT",
+          payload: data,
+        });
         // close overly and modal
         setIsModalOpen(false);
         setIsOverlyOpen(false);
