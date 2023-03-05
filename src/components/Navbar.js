@@ -32,7 +32,7 @@ const Navbar = () => {
             <span>{user.email}</span>
             <button
               onClick={handleLogout}
-              className="bg-sky-400 font-medium text-sky-900 px-5 py-3 rounded-lg hover:bg-sky-50 duration-300"
+              className="bg-sky-400 font-medium text-sky-900 px-5 py-2 rounded-lg hover:bg-sky-50 duration-300"
             >
               Logout
             </button>

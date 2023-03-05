@@ -2,20 +2,28 @@ import { useEffect } from "react";
 import ProjectCards from "../components/ProjectCards";
 import ProjectForm from "../components/ProjectForm";
 import { useProjectsContext } from "../hooks/useProjectsContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const Home = () => {
   const { projects, dispatch } = useProjectsContext();
+  const { user } = useAuthContext();
 
   useEffect(() => {
     const getAllProjects = async () => {
-      const res = await fetch("http://localhost:5000/api/projects");
+      const res = await fetch("http://localhost:5000/api/projects", {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
       const data = await res.json();
       if (res.ok) {
         dispatch({ type: "SET_PROJECTS", payload: data });
       }
     };
-    getAllProjects();
-  }, [dispatch]);
+    if (user) {
+      getAllProjects();
+    }
+  }, [dispatch, user]);
 
   return (
     <div className="home container mx-auto py-20 grid grid-cols-3 gap-10">

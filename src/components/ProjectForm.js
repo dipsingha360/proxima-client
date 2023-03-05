@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useProjectsContext } from "../hooks/useProjectsContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const ProjectForm = ({ project, setIsModalOpen, setIsOverlyOpen }) => {
   const [title, setTitle] = useState(project ? project.title : "");
@@ -12,9 +13,15 @@ const ProjectForm = ({ project, setIsModalOpen, setIsOverlyOpen }) => {
   const [emptyFields, setEmptyFields] = useState([]);
 
   const { dispatch } = useProjectsContext();
+  const { user } = useAuthContext();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!user) {
+      setError("User must be logged in");
+      return;
+    }
 
     // data
     const projectData = { title, tech, budget, duration, manager, dev };
@@ -26,6 +33,7 @@ const ProjectForm = ({ project, setIsModalOpen, setIsOverlyOpen }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
         },
         body: JSON.stringify(projectData),
       });
@@ -66,6 +74,7 @@ const ProjectForm = ({ project, setIsModalOpen, setIsOverlyOpen }) => {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
           },
           body: JSON.stringify(projectData),
         }
@@ -118,7 +127,7 @@ const ProjectForm = ({ project, setIsModalOpen, setIsOverlyOpen }) => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           className={`bg-transparent border  py-3 px-5 rounded-lg outline-none focus:border-sky-400 duration-300 ${
-            emptyFields.includes("title")
+            emptyFields?.includes("title")
               ? "border-yellow-500"
               : "border-slate-500"
           }`}
@@ -139,7 +148,7 @@ const ProjectForm = ({ project, setIsModalOpen, setIsOverlyOpen }) => {
           value={tech}
           onChange={(e) => setTech(e.target.value)}
           className={`bg-transparent border  py-3 px-5 rounded-lg outline-none focus:border-sky-400 duration-300 ${
-            emptyFields.includes("tech")
+            emptyFields?.includes("tech")
               ? "border-yellow-500"
               : "border-slate-500"
           }`}
@@ -160,7 +169,7 @@ const ProjectForm = ({ project, setIsModalOpen, setIsOverlyOpen }) => {
           value={budget}
           onChange={(e) => setBudget(e.target.value)}
           className={`bg-transparent border  py-3 px-5 rounded-lg outline-none focus:border-sky-400 duration-300 ${
-            emptyFields.includes("budget")
+            emptyFields?.includes("budget")
               ? "border-yellow-500"
               : "border-slate-500"
           }`}
@@ -181,7 +190,7 @@ const ProjectForm = ({ project, setIsModalOpen, setIsOverlyOpen }) => {
           value={duration}
           onChange={(e) => setDuration(e.target.value)}
           className={`bg-transparent border  py-3 px-5 rounded-lg outline-none focus:border-sky-400 duration-300 ${
-            emptyFields.includes("duration")
+            emptyFields?.includes("duration")
               ? "border-yellow-500"
               : "border-slate-500"
           }`}
@@ -202,7 +211,7 @@ const ProjectForm = ({ project, setIsModalOpen, setIsOverlyOpen }) => {
           value={manager}
           onChange={(e) => setManager(e.target.value)}
           className={`bg-transparent border  py-3 px-5 rounded-lg outline-none focus:border-sky-400 duration-300 ${
-            emptyFields.includes("manager")
+            emptyFields?.includes("manager")
               ? "border-yellow-500"
               : "border-slate-500"
           }`}
@@ -223,7 +232,7 @@ const ProjectForm = ({ project, setIsModalOpen, setIsOverlyOpen }) => {
           value={dev}
           onChange={(e) => setDev(e.target.value)}
           className={`bg-transparent border  py-3 px-5 rounded-lg outline-none focus:border-sky-400 duration-300 ${
-            emptyFields.includes("dev")
+            emptyFields?.includes("dev")
               ? "border-yellow-500"
               : "border-slate-500"
           }`}
