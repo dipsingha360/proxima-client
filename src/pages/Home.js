@@ -10,11 +10,14 @@ const Home = () => {
 
   useEffect(() => {
     const getAllProjects = async () => {
-      const res = await fetch("http://localhost:5000/api/projects", {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
+      const res = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/api/projects`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
       const data = await res.json();
       if (res.ok) {
         dispatch({ type: "SET_PROJECTS", payload: data });
@@ -29,7 +32,7 @@ const Home = () => {
     <div className="home container mx-auto py-20 grid grid-cols-3 gap-10">
       <div className="left col-span-2 ">
         <h2 className="text-4xl font-medium text-sky-400 mb-10 ">
-          All projects
+          {projects.length < 1 ? "No Project Found" : "All projects"}
         </h2>
         <div className="projects-wrapper flex gap-10 flex-wrap">
           {projects &&
